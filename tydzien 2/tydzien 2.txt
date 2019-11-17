@@ -1,0 +1,37 @@
+2.1
+Partitioning
+ - modulowa budowa systemu tak zeby w razie potrzeb mozna by niezaleznie skalowac poszczegolny moduly
+   np. modul importujacy produkty partnerow
+ - loosely-coupled, mozliwosc latwego rozszerzenia systemu o dodatkowe integracje z partnerami
+ - partycjonowanie na poziomie danych - horizontal scaling w bazie danych 
+ - niezaleznosc komponentow
+Competing Consumers Pattern
+ - asynchroniczne przetwarzanie zapytan, serwis przetwarzajacy zapytanie, nie blokuje reszty systemu 
+ - pomaga systemowi poradzic sobie z rozna iloscia zapytan - load leveling. Latwa skalowalnosc consumentow
+ - zwiekszona odpornosc systemu na bledy, zapytanie nie jest tracone w przypadku bledy serwisu konsumujacego
+Load Balancing
+ - lokowanie komponentow systemu blizej klienta w roznych regionach
+ - system pozostaje dostepny w przypadku niedostepnosci komponentow w jednym z regionow
+ - dodatkowe mozliwosci skalowania
+Static Content Hosting
+ - strony e-commerce posiadaja duza ilosc statycznych zasobow jak zdjecia, ktore mozemy umiescic 
+w usludze typu Storage - minimalizacja kosztow
+ - zasoby moga byc cachowane przez CDN w roznych regionach w celu szybszego dostepu
+ - mniejsze obciazenie serwisow
+
+2.2
+Partitioning
+App Service, Azure Function - obydwa rozwiazania latwo skalowac,
+App Service - latwe deploymenty, Application Insights do monitorowania. 
+Azure Function dobrze sprawdza sie do asynchronicznych zadan, integracja z kolejkami
+
+Competing Consumer Pattern
+Azure Service Bus - umozliwa odczytanie wiadomosci z kolejki bez usuwania jej (PeekLock),
+latwa integracja z Azure Functions, wysoka wydajnosc
+
+Load Balancing
+Azure Trafic Manager - monitoruje serwisy w przypadku niedostepnosci, kilka dostepnych 
+trybow przesylania zapytan pomiedzy serwisami
+
+Static Content Hosting
+Azure CDN - dobra integracja z Azure Storage i Azure App Service
