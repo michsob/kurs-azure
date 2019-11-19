@@ -27,7 +27,7 @@
     "diagStorageAccountName": {
       "type": "string",
       "metadata": {
-        "description": "Location for the VM."
+        "description": "Storage account name."
       }
     }
   },
@@ -47,5 +47,9 @@
     }
   ],
   "outputs": {
+    "storageUri": {
+      "type": "string",
+      "value": "[reference(parameters('diagStorageAccountName')).primaryEndpoints.blob]"
+    }
   }
 }
