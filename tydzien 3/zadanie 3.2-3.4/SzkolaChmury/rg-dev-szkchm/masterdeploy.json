@@ -1,0 +1,337 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "northeurope",
+        "francecentral"
+      ],
+      "defaultValue": "northeurope",
+      "metadata": {
+        "description": "Location for the VM."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for the Virtual Machine."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Default Admin password"
+      }
+    },
+    "virtualMachineSize": {
+      "type": "string",
+      "defaultValue": "Standard_A3"
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "metadata": {
+        "description": "Storage Account type for the VM and VM diagnostic storage"
+      },
+      "allowedValues": [
+        "Standard_LRS",
+        "Premium_LRS"
+      ]
+    }
+  },
+  "variables": {
+    "addressPrefix": "10.0.0.0/16",
+    "diagStorageAccountName": "stdiagszkchm",
+    "linuxImage": {
+      "publisher": "Canonical",
+      "offer": "UbuntuServer",
+      "sku": "18.04-lts",
+      "version": "latest"
+    },
+    "networkSecurityGroupName1": "nsg-dev-szkchm01-allowssh",
+    "networkSecurityGroupName2": "nsg-dev-szkchm02-allowssh",
+    "nic1": "nic-dev-szkchm01-01",
+    "nic2": "nic-dev-szkchm01-02",
+    "publicIPAddressName1": "pip-szkchm-01",
+    "publicIPAddressName2": "pip-szkchm-02",
+    "subnet1Name": "snet-dev-szkchm-01",
+    "subnet1Ref": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnet1Name'))]",
+    "subnet2Name": "snet-dev-szkchm-02",
+    "subnet2Ref": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnet2Name'))]",
+    "subnetPrefix1": "10.0.0.0/24",
+    "subnetPrefix2": "10.0.1.0/24",
+    "virtualMachineName1": "vmdevszkchm01",
+    "virtualMachineName2": "vmdevszkchm02",
+    "virtualNetworkName": "vnet-dev-szkchm"
+  },
+  "resources": [
+    {
+      "name": "linkedstoragedeploy",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "parameters": {
+          "diagStorageAccountName": { "value": "[variables('diagStorageAccountName')]" },
+          "location": { "value": "[parameters('location')]" }
+        },
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/michsob/kurs-azure/master/tydzien%203/SzkolaChmury/rg-dev-szkchm/storagedeploy.json",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
+      "comments": "This will build a Virtual Network.",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnet1Name')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetPrefix1')]"
+            }
+          },
+          {
+            "name": "[variables('subnet2Name')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetPrefix2')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('publicIpAddressName1')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
+      "comments": "Public IP for your Primary NIC",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
+      "name": "[variables('publicIpAddressName2')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
+      "comments": "Public IP for your Primary NIC",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
+      "name": "[variables('networkSecurityGroupName1')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
+      "comments": "Network Security Group (NSG) for your Primary NIC",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-ssh",
+            "properties": {
+              "priority": 1000,
+              "sourceAddressPrefix": "*",
+              "protocol": "Tcp",
+              "destinationPortRange": "22",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('networkSecurityGroupName2')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2016-09-01",
+      "location": "[parameters('location')]",
+      "comments": "Network Security Group (NSG) for your Primary NIC",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-ssh",
+            "properties": {
+              "priority": 1000,
+              "sourceAddressPrefix": "*",
+              "protocol": "Tcp",
+              "destinationPortRange": "22",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('nic1')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2019-09-01",
+      "location": "[parameters('location')]",
+      "comments": "Primary NIC",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIpAddressName1'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName1'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnet1Ref')]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIpAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIpAddressName1'))]"
+              }
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName1'))]"
+        }
+      }
+    },
+    {
+      "name": "[variables('nic2')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2017-06-01",
+      "location": "[parameters('location')]",
+      "comments": "Secondary NIC",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIpAddressName2'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName2'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnet2Ref')]"
+              },
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIpAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIpAddresses', variables('publicIpAddressName2'))]"
+              }
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName2'))]"
+        }
+      }
+    },
+    {
+      "name": "[variables('virtualMachineName1')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-03-01",
+      "location": "[parameters('location')]",
+      "comments": "virtual machine 1.",
+      "dependsOn": [
+        "[variables('nic1')]",
+        "linkedstoragedeploy"
+      ],
+      "properties": {
+        "osProfile": {
+          "computerName": "[variables('virtualMachineName1')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('virtualMachineSize')]"
+        },
+        "storageProfile": {
+          "imageReference": "[variables('linuxImage')]",
+          "osDisk": {
+            "name": "[concat('disk-dev-os-', variables('virtualMachineName1'))]",
+            "createOption": "FromImage"
+          },
+          "dataDisks": []
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "properties": {
+                "primary": true
+              },
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic1'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[reference('linkedstoragedeploy').outputs.storageUri.value]"
+          }
+        }
+      }
+    },
+    {
+      "name": "[variables('virtualMachineName2')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2019-03-01",
+      "location": "[parameters('location')]",
+      "comments": "virtual machine 2.",
+      "dependsOn": [
+        "[variables('nic2')]",
+        "linkedstoragedeploy"
+      ],
+      "properties": {
+        "osProfile": {
+          "computerName": "[variables('virtualMachineName2')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('virtualMachineSize')]"
+        },
+        "storageProfile": {
+          "imageReference": "[variables('linuxImage')]",
+          "osDisk": {
+            "name": "[concat('disk-dev-os-', variables('virtualMachineName2'))]",
+            "createOption": "FromImage"
+          },
+          "dataDisks": []
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "properties": {
+                "primary": true
+              },
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nic2'))]"
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[reference('linkedstoragedeploy').outputs.storageUri.value]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

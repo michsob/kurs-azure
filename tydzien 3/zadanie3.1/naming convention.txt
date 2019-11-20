@@ -1,0 +1,34 @@
+Based on:
+https://docs.microsoft.com/en-gb/azure/architecture/best-practices/resource-naming
+https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging#sample-naming-convention
+
+Subscription
+<client id>
+
+Resource Group
+rg-<environment>-<App or Service name>
+length max 90
+
+Virtual Network
+vnet-<environment>-<App or Service name><##>
+length max 64
+
+Virtual Machine
+vm<environment><App or Service name><##>
+length max 15 (Windows) / 64 (Linux)
+
+Disks
+disk-<environment>-<disktype>-<VM name>
+length max 24
+
+Network Interface
+nic-<environment>-<VM name><##>
+length max 80
+
+Subnet
+snet-<environment>-<App or Service name><##>
+length max 80
+
+network security group
+nsg-<environment>-<VM name>-<Policy or App name name><##>
+length max 80

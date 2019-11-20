@@ -1,0 +1,17 @@
+{
+    "Name": "szkchm VM Operator",
+    "IsCustom": true,
+    "Description": "Basic VM operations.",
+    "Actions": [
+      "Microsoft.Compute/virtualMachines/start/action",
+      "Microsoft.Compute/virtualMachines/powerOff/action",
+      "Microsoft.Resources/subscriptions/resourceGroups/read",
+      "Microsoft.Support/supportTickets/write"
+    ],
+    "NotActions": [],
+    "DataActions": [],
+    "NotDataActions": [],
+    "AssignableScopes": [
+      "/subscriptions/{id}"
+    ]
+  }
