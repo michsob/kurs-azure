@@ -1,0 +1,12 @@
+az vmss create `
+    --name vmss-szkchm `
+    --resource-group rg-dev-szkchm `
+    --location northeurope `
+    --instance-count 2 `
+    --image Win2016Datacenter `
+    --data-disk-sizes-gb 2 `
+    --load-balancer lb-dev-szkchm `
+    --vnet-name vnet-dev-szkchm `
+    --public-ip-address pip-szkchm `
+    --admin-username szkadmin `
+    --admin-password SzkolaChmury0

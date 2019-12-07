@@ -1,0 +1,5 @@
+4.2 Scale Set
+ - wykorzystac przy big data - nody obliczeniowe
+ - web farm
+ - inne rozwiazania gdzie potrzebna jest wieksza kontrola nad srodowiskiej (na poziomie IAAS),
+ oraz latwosc skalowania na poziomie PAAS

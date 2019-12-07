@@ -1,0 +1,39 @@
+1. Przygotowac planu adopcji
+ - zdefiniowanie strategi, okreslenie z jakich maszyn, aplikacji i danych sklada sie
+   system 
+ - okreslenie w jakiej kolejnosci systemy powinny zostac zmigrowane
+   (wybrac kilka krytycznych na poczatkowa migracje)
+ - estymacja czasu potrzebnego na wykonanie planu
+ - release plan
+ - budowanie wiedzy w zespole
+
+2. Azure Migration
+ - analiza infrastruktury pod kate migracji - assessment plan
+
+3. Organizacja zasobow
+ - przygotowaniu struktury management groups, subscriptions, resource groups
+ - ustalenie konwencji nazewniczej
+ - okreslenie dostepu do zasobow - RBAC
+ - Azure Blueprint do przygotowania wzorca srodowiska - Roles, Policy, Resource Groups, ARM templates
+  - limit 800 zasobo w Resource Group
+ - W zaleznosci od wielkosci maszyn zwiekszenie limitu na liczbe CPU cores z 20
+
+4. Przygotowanie sieci
+ - analiza pod katem polaczenia z On-premise
+ - analiza pod katem polaczen miedzy subscrypcjami
+ - konfiguracja security dla sieci dostepnych do internetu
+ - DNS
+
+5. Analiza system pod katem obliczeniowym
+ - podzial na zasoby ktora zostana przeniesione do IAAS, SAAS, PAAS
+ - Scale-set wspiera do 1000 instacji (600 custom VM)
+ - wykorzystac Scale-set tam gdzie uslugi wykorzystuja kilka instacji VM
+
+6. Analiza rozwiazan bazodanowych
+ - Wybor rozwiazania na podstawie typow baz danych w srodowisku i rodzaju danych
+
+6. Disaster recorvery
+ - konfiguracja Azure Site Recorvery i/albo Azure Backup
+
+
+

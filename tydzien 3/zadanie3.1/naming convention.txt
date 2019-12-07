@@ -2,19 +2,74 @@ Based on:
 https://docs.microsoft.com/en-gb/azure/architecture/best-practices/resource-naming
 https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging#sample-naming-convention
 
+#Main
+
 Subscription
-<client id>
+<client name (abbreviation)>
 
 Resource Group
-rg-<environment>-<App or Service name>
+rg-<environment>-<Client or App name>
 length max 90
 
+#Common
+
+App Service Plan
+asp-<Client or App name>
+Optionally
+asp-<Client or App name><##>
+
+App Service (Api/Web App)
+azapp-<environment>-<Client or App name>
+Optionally
+azapp-<environment>-<Client or App name><##>
+
+Azure Function (Api/Web App)
+azfun-<environment>-<Client or App name>
+Optionally
+azfun-<environment>-<Client or App name><##>
+
+#Storage
+
+Azure Storage Account
+st<Client or App name / Predestination><##>
+
+Sql Server
+sqls-<Client or App name>
+
+SQL DB
+sqldb-<environment>-<Client or App name>
+
+Cosmos Db Account
+cosdb-<Client or App name>
+
+Cosmos Db
+cosdb-<environment>-<Client or App name>
+
+#Other
+
+Key Vault
+kv-<Client or App name>
+
+Azure Logic App
+azlg-<environment>-<Service name / Predestination name>
+
+Azure Service Bus
+sb-<environment>-<Client or App name>
+
+Azure Service Bus Queue
+sbq-<Service name / Predestination name>
+
+Azure Service Bus Topic
+sbt-<Service name / Predestination name>
+
+#Virtual Machines/Networks
+
 Virtual Network
-vnet-<environment>-<App or Service name><##>
+vnet-<environment>-<Client or App name><##>
 length max 64
 
 Virtual Machine
-vm<environment><App or Service name><##>
+vm<environment><Client or App name><##>
 length max 15 (Windows) / 64 (Linux)
 
 Disks
@@ -26,9 +81,12 @@ nic-<environment>-<VM name><##>
 length max 80
 
 Subnet
-snet-<environment>-<App or Service name><##>
+snet-<environment>-<Client or App name><##>
 length max 80
 
 network security group
 nsg-<environment>-<VM name>-<Policy or App name name><##>
 length max 80
+
+
+
