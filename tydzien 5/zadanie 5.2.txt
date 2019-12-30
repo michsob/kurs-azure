@@ -1,0 +1,13 @@
+Applikacje ktorych nie migrowalbym do ASE, AKS i SF
+
+1. Mikro-serwisy rozszerzajace funkcjonalnosc Dynamics 365. Przewaznie sa to niezalezne
+procesy, ktore nie potrzebuja orchestracji i nie powoduja duzych obciazen. Standardowy
+App Service Plan z Azure Function (lub Consumption plan) jest wystarczajacy.
+
+2. REST API pelniace funkcje backendu nieduzej aplikacji mobilnej glownie serwujacej tresci. 
+W tym przypadku architektura mikro-serwisow nie jest wymagana, a standardowy App Service Plan bedzie
+tanszy niz dedykowane ASE dla klienta.
+
+3. Aplikacje dzialajace bezposrednio na maszynach VM, np Windows Service, ktory 
+komunikuje sie z usluga, wymagajaca certyfikatu w Trusted Root Certification Authorities i logujacy do
+Event Viewer

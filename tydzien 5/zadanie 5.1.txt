@@ -1,0 +1,32 @@
+AKS
+Aplikacja rozpoznajaca kwiaty za pomoca AI.
+ML model uczony na AKS przy wykorzystaniu Kubeflow i Azure Container Registry.
+Duza ilosc danych przechowywanych na Azure Storage
+
+Kryteria:
+ - mozliwosc dowolnego skalowania w zaleznosci od ilosci danych wprowadzanych do uczenia systemu
+ - mozliwosc wykorzystania GPU-enabled VMs
+ - gotowe rozwiazania do Machine Learning jak Kubeflow
+
+ASE
+Aplikacja do skanowania kart pracownikow urzedu przy wejsciu do budynku.
+Skala wykorzystania serwisow przerastajaca standardowy App Service Plan. Baza danych
+uzytkownikow znajduje sie w SQL Database na serwerach urzedu (On-Premises). 
+
+Kryteria:
+ - mozliwosc skalowania do 100 instacji
+ - API dostepne tylko poprzez Front-end
+ - integracja z zasobami on-premises poprzez ExpressRoute albo Site-to-Site
+ - natywna obsluga zasobow w VNet
+
+Service Fabric
+Szachy online. Azure Service Fabric wykorzystany do zarzadzania VM Scale Set. 
+Instancje wykorzystane jak serwery gry, skalowane w zaleznosci od ilosci graczy.
+
+Kryteria:
+ - dowolne skalowanie w zaleznosci od ilosci graczy
+ - Service Fabric umozliwa stanowe serwisy, ktore pozwola na utrzymanie stanu poszczegolnych gier
+
+Plusy:
+ - mozliwosc stosowania mieszanych architektur
+ - stanowe mikro-serwisy
