@@ -1,0 +1,28 @@
+Prezentacja oferty / Sprzedaz
+Tutaj mozna wykorzystac wzorzec CQRS z osobnym Azure Web App na operacje Read and Write.
+W Azure Web App skonfigurowac Auto-Scale zeby byc przygotowanym na duza liczbe odwiedzin.
+Dodatkowo Azure Web Apps mozna postawic w 2 regionach i ustawic Azure Front Door do routingu.
+CosmosDb jako baza produktow skalowana miedzy regionami
+ - wzorzec CQRS z Azure Web Apps zapewni elastycznosc skalowania systemu
+ - opcja Auto-scale ulatwi nam obsluge duzej ilosci zapytan (jesli skala przerosnie mozliwosci Azure Web App mozna pomyslec o ASE)
+ - do Azure Web App serwise mozna dodac bez duzego nakladu Azure AD B2C do autoryzacji klientow poprzez protokol OAuth 2.0 
+
+Import produktow przez partnerow
+Tutaj mozna wykorzystac Azure Function oparte o AppServicePlan i podpiac API Management.
+ - z Azure Function mozna szybko wystawic endpoint przez ktory partnerzy moga uploadowac produkty
+ - Azure Function z AppServicePlan nie ma limitu w razie dlugiego czasu wykonania. Zakladajac ze funkcja
+   przyjmuje pojedynczy produkt to nie powinno byc problemem
+ - API management automatycznie generuje portal gdzie mozemy wystawic dokumentacje dla partnerow
+ - w API management mozna ustawic limity requestow, tak zeby dopasowac to do umowionej przepustowosci i wielkosci AppServicePlan
+
+System Platnosci
+Tutaj mozna wykorzystac Azure Durable Functions razem z providerem jak SagePay
+ - Durable Function implementuja wewnetrznie kolejki, latwa replikacje w przypadku bledu
+ - Durable Function obluguje Request-Response pattern. W ten sposob web client moze w latwy 
+   sposob monitorowac postep operacji mimo ze caly proces jest asynchroniczny
+ - mozliwosc anulowania przetwarzanej operacji
+ - elastyczna skalowalnosc rozwiazania, mozliwosc zrownoleglenia operacji
+ 
+
+
+ 

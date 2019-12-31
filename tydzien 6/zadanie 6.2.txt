@@ -1,0 +1,2 @@
+1. 3rd Party moduly np system do analityki, system dla supportu
+2. Systemy finansowe jak Sage 200
