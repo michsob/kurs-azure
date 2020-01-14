@@ -1,0 +1,8 @@
+StorSimple
++ Mozna wykorzystac jako backup/archive dla rzadko uzywanych danych.
++ Do przetrzymywania logow
++ wykorzystac jako File server
++ Mozna wykorzystac z innymi providerami poprzez OpenStack
++ na plus powyzszych rozwiazan wplywa cena przechowywania danych w StorSimple
+
+- w innych przypadkach wykorzystalbym jedna z opcji Storage w Azure

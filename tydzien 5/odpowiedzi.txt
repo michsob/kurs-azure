@@ -1,0 +1,20 @@
+1. Osobiscie nie implementowalem takiego rozwiazania, 
+- w site-to-site zasoby dostepne tylko przez VNet ktory jest skonfigurowany z Appka
+- wymagane urzadzenie VPN do obslugi Site-to-Site
+- poza tym mozna spodziewac sie problemow z przepustowoscia bazy danych albo z jej dostepnoscia
+
+Dodatkowo mozna wykorzystac Hybrid Connection, nie ma limitu co do VNet, zasoby moga znajdowac
+sie w roznych sieciach
+
+On-premises data gateway odpada bo nie jest dostepne przez App Service.
+
+W konfiguracjach hybrydowych mam male doswiadczenie takze bede wdzieczny za dodatkowe informacje ;)
+
+2. Zamiast AKS mozna uzyc Azure Machine Learning ktore tez wspiera Kubeflow.
+Poza tym jest tez Azure Cognitive Services ktore wspiera Vision recognition.
+
+3. Stanowa aplikacje mozna postawic na AKS przy wykorzystaniu StatefulSet. 
+Do przechowywania stanu potrzebny jest Azure Managed Disks albo Azure Files.
+
+4. VM Scale Set obsluguje Autoscale, ktore dynamicznie dodaje/odejmuje maszyny w zaleznosci np ustalonych parametrow,
+ale nie jestem pewien czy o to pytasz. 

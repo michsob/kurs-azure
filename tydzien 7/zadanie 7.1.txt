@@ -1,0 +1,42 @@
+Azure Storage
++ duza skala danych - 500TB/2PiB
++ REST API
++ obsluguje Azure Data Lake Storage Gen2 do analityki danych
++ najtansza przestrzen
++ w wersji gen2 oblsuguje static website
+
+Wykorzystanie:
+streamowanie danych, analityka big data, przechowywanie plikow (website static content)  
+
+Azure Files
++ obsluguje SMB
++ dostep do wielu VM
++ Bezpieczenstwo, szyfrowanie danych za pomoca Server Message Block(SBM 3) 
+- wielkosc pojedynczego Share - 5TB
+
+Wykorzystanie:
+Migracja aplikacji w trybie "lift*shift" ktora korzysta z natywnego systemu plikow,
+zastapienie serweru plikow on-premises.
+Udostepnianie narzedzi do wielu VM
+
+Managed Disk
++ ARM obiekt
++ wieksze mozliwosci zarzadzania
++ max IOPS 160 000
++ prosty upgrade z Standard do Premium i downgrade z Premium do Standard
+- nie mozna zmniejszac dysku
+- stala cena za dysk
+- dostep tylko poprzez VM
+
+Wykorzystanie
+Przechowywanie danych wykorzystywanych z VMki, ktore nie musze byc dostepne zewnetrznie
+
+Umanaged Disk
++ mozliwosc zmiany rozmiaru dysku
++ oplata tylko za wykorzystane GB (wersja standard)
+- utrudniony upgrade z Stadard do Premium
+- nie jest ARM obiektem
+- dostep tylko poprzez VM
+
+Wykorzystanie
+Obraz VM
